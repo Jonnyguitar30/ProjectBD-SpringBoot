@@ -1,5 +1,6 @@
 package ipn.upiita.polifood.Controller;
 
+import ipn.upiita.polifood.DTO.UsuarioDTOResponse;
 import ipn.upiita.polifood.Entity.Usuario;
 import ipn.upiita.polifood.Service.UsuarioService;
 import ipn.upiita.polifood.commons.GenericResponseDTO;
@@ -25,14 +26,14 @@ public class UsuarioController extends CommonController {
                 usuario1));
     }
 
-    @RequestMapping(value = "/borrarCorreo/{correoInstitucional}", method = RequestMethod.DELETE)
-    public ResponseEntity<GenericResponseDTO<?>> borrar(@PathVariable("correoInstitucional") String correoInstitucional){
-        usuarioService.borrarUsuario(correoInstitucional);
+    @RequestMapping(value = "/buscarCorreo/{p_correo}", method = RequestMethod.GET)
+    public ResponseEntity<GenericResponseDTO<?>> buscarbyCorreo(@PathVariable("p_correo") String p_correo){
+        UsuarioDTOResponse usuario = (UsuarioDTOResponse) usuarioService.obtenerUsuariobyCorreo(p_correo);
         return ResponseEntity.ok(new GenericResponseDTO<>(SUCCESS, HTTP_SUCCESS, null,
-                null, "Servicio ejecutado exitosamente. Usuario eliminado",1));
+                null, "Servicio ejecutado exitosamente. Usuario encontrado",usuario));
     }
 
-    @RequestMapping(value = "/buscar", method = RequestMethod.GET)
+    @RequestMapping(value = "/listar", method = RequestMethod.GET)
     public ResponseEntity<GenericResponseDTO<?>> obtener(){
         List<Usuario> usuario1 = usuarioService.obtenerUsuarios();;
         return ResponseEntity.ok(new GenericResponseDTO<>(SUCCESS, HTTP_SUCCESS, null,
@@ -47,9 +48,9 @@ public class UsuarioController extends CommonController {
                 usuario));
     }
 
-    @RequestMapping(value = "/borrarId/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<GenericResponseDTO<?>> borrarbyId(@PathVariable("id") int id){
-        usuarioService.borrarUsuarioId(id);
+    @RequestMapping(value = "/borrarCorreo/{correo}", method = RequestMethod.DELETE)
+    public ResponseEntity<GenericResponseDTO<?>> borrarbyId(@PathVariable("correo") String correo){
+        usuarioService.borrarUsuario(correo);
         return ResponseEntity.ok(new GenericResponseDTO<>(SUCCESS, HTTP_SUCCESS, null,
                 null, "Servicio ejecutado exitosamente. El usuario fue eliminado",
                 1));

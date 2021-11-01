@@ -13,10 +13,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
     Usuario insertUsuarios(String p_correoInstitucional, String p_telefonoCelular,String p_noBoleta, String p_contrasenia);
 
     @Procedure(name = "borrarUsuario")
-    void deleteUsuario(String p_correoInstitucional);
+    void deleteUsuario(String p_correo);
 
-//    @Procedure(name = "buscarUsuario")
-//    Optional<Usuario> findUser(String p_correoInstitucional);
+    @Procedure(name = "buscarUsuario")
+    Usuario findByCorreo(String p_correo);
 
 
 }

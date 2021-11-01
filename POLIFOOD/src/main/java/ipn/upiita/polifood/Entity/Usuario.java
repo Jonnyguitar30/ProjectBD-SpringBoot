@@ -1,10 +1,22 @@
 package ipn.upiita.polifood.Entity;
 
+import ipn.upiita.polifood.DTO.UsuarioDTOResponse;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@SqlResultSetMapping(
+        name = "UsuarioDTOResponse", classes = {
+                @ConstructorResult(targetClass = UsuarioDTOResponse.class, columns = {
+                        @ColumnResult(name = "id"),
+                        @ColumnResult(name = "correo"),
+                        @ColumnResult(name = "boleta"),
+                        @ColumnResult(name = "celular"),
+                        @ColumnResult(name = "contrasenia")
+                }),
+}
+)
 
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(
@@ -28,12 +40,13 @@ import java.io.Serializable;
         ),
         @NamedStoredProcedureQuery(
                 name = "buscarUsuario",
-                procedureName = "sp_buscarUsuario",
+                procedureName = "sp_buscarUsuario",resultSetMappings = "UsuarioDTOResponse",
                 parameters = {
                          @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_correo", type = String.class)
                 }
         )
 })
+
 @Data
 @Entity
 @Table(name = "Usuarios")
